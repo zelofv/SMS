@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sms.mapper.LoginMapper">
+    <select id="getUserNumber" resultType="int">
+        SELECT count(0) FROM user
+    </select>
+    <select id="queryUserByAccount" resultType="User">
+        SELECT * FROM `user` WHERE deleted = false and (phone = #{account} or email = #{account} or uid = #{account})
+    </select>
+    <select id="queryUserByPhone" resultType="User">
+        SELECT * FROM `user` WHERE deleted = false and phone = #{phone}
+    </select>
+    <select id="queryUserByEmail" resultType="User">
+        SELECT * FROM `user` WHERE deleted = false and email = #{email}
+    </select>
+    <insert id="addUser" parameterType="User">
+        insert into `user` (uid,name,email,phone,password,avatar,identity,school,sid,time,deleted) values (#{uid},#{name},#{email},#{phone},#{password},#{avatar},#{identity},#{school},#{sid},#{time},#{deleted})
+    </insert>
+    <insert id="addTeacher" parameterType="Teacher">
+        insert into `teacher` (uid,name,tid) values (#{uid},#{name},#{tid})
+    </insert>
+<!--    <update id="updatePassword" parameterType="User">-->
+<!--        update `user` set password = #{password} where uid = #{uid}-->
+<!--    </update>-->
+</mapper>

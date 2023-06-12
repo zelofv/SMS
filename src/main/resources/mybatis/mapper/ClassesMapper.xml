@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sms.dao.StudentDao">
+    <select id="getStudentCountBy" resultType="int" parameterType="map">
+        SELECT count(0)
+        FROM students as s
+        <where>
+            s.deleted = 0
+            <if test="sid != null and sid != ''">
+                and s.sid like concat('%',#{sid},'%')
+            </if>
+            <if test="name != null and name != ''">
+                and s.name like concat('%',#{name},'%')
+            </if>
+            <if test="grade != null and grade != ''">
+                and s.grade like concat('%',#{grade},'%')
+            </if>
+            <if test="age != null and age != ''">
+                and s.age like concat('%',#{age},'%')
+            </if>
+            <if test="gender != null and gender != ''">
+                and s.gender like concat('%',#{gender},'%')
+            </if>
+            <if test="classNo != null and classNo != ''">
+                and s.classNo like concat('%',#{classNo},'%')
+            </if>
+            <if test="college != null and college != ''">
+                and s.college like concat('%',#{college},'%')
+            </if>
+        </where>
+    </select>
+    <select id="getStudentCount" resultType="int">
+        SELECT count(0)
+        FROM students
+        where deleted = 0
+    </select>
+    <select id="getStudentBySid" resultType="com.example.sms.entity.Student" parameterType="string">
+        select *
+        from students
+        where sid = #{sid}
+          and deleted = 0;
+    </select>
+    <select id="getAllStudent" resultType="com.example.sms.entity.Student" parameterType="map">
+        select *
+        from students
+        where deleted = 0
+            limit #{from}
+            , #{size};
+    </select>
+    <select id="selectStudentByKV" resultType="com.example.sms.entity.Student" parameterType="map">
+        select *
+        from students as s
+        <where>
+            s.deleted = 0
+            <if test="sid != null and sid != ''">
+                and s.sid like concat('%',#{sid},'%')
+            </if>
+            <if test="name != null and name != ''">
+                and s.name like concat('%',#{name},'%')
+            </if>
+            <if test="grade != null and grade != ''">
+                and s.grade like concat('%',#{grade},'%')
+            </if>
+            <if test="age != null and age != ''">
+                and s.age like concat('%',#{age},'%')
+            </if>
+            <if test="gender != null and gender != ''">
+                and s.gender like concat('%',#{gender},'%')
+            </if>
+            <if test="classNo != null and classNo != ''">
+                and s.classNo like concat('%',#{classNo},'%')
+            </if>
+            <if test="college != null and college != ''">
+                and s.college like concat('%',#{college},'%')
+            </if>
+        </where>
+        limit #{from}, #{size};
+    </select>
+    <update id="updateStudent" parameterType="com.example.sms.entity.Student">
+        update students
+        SET sid=#{sid},
+            `name`=#{name},
+            grade=#{grade},
+            gender=#{gender},
+            age=#{age},
+            classNo=#{classNo},
+            college=#{college}
+        where sid = #{sid};
+    </update>
+    <insert id="addStudent" parameterType="com.example.sms.entity.Student">
+        insert into students (sid, `name`, grade, age, gender, classNo, college)
+        values (#{sid}, #{name}, #{grade}, #{age}, #{gender}, #{classNo}, #{college});
+    </insert>
+    <update id="deleteStudent" parameterType="string">
+        update students
+        set deleted = 1
+        where sid = #{sid};
+    </update>
+
+</mapper>
